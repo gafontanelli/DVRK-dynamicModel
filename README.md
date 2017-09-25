@@ -5,6 +5,6 @@ The dvrk_sensing is a ros package containing the function for the dynamics, kine
 # Install
 Copy the package in the dvrk-ros folder and compile with catkin build
 
-#Contents
+# Contents
 The folders MTM-dynamics and PSM-dynamics contains respectively all the symbolic and optimized function for the MTM and the PSM dynamic model. 
 The functions names respects the nomenclature reported in the book ..... Hence B: Inertia matrix, C:Coriolis and centrifugal therms, ...
