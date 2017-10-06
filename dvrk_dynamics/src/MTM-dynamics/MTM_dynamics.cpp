@@ -31,7 +31,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <TooN/TooN.h>
-#include "dvrk_sensing/MTM_dynamics.h"
+#include "dvrk_dynamics/MTM_dynamics.h"
 
 
 #ifndef M_PI

@@ -27,7 +27,7 @@
 * This code will subscriber integer values from demo_topic_publisher
 */
 
-#include "dvrk_sensing/MTM_dynamics.h"
+#include "dvrk_dynamics/MTM_dynamics.h"
 
 //******************************************************************************
 //Dirkin in base frame
