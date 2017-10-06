@@ -26,8 +26,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
 * This code will subscriber integer values from demo_topic_publisher
 */
-#ifndef _PSM1_DYNAMICS_PARMETERS_H
-#define _PSM1_DYNAMICS_PARMETERS_H
+#ifndef _PSM_DYNAMICS_PARMETERS_H
+#define _PSM_DYNAMICS_PARMETERS_H
 
 
 #define   mass1   3096.13274
@@ -100,11 +100,11 @@
 #define   Izz9   -253.281482
 
 
-//ASTA
-#define   mpx5_ASTA   -0.0493  //-0.0051
-#define   Ixx5_ASTA   0.00003284 //0.00000028
-#define   Iyy5_ASTA   0.01866//0.00169
-#define   Izz5_ASTA   0.01866//0.00169
+//Trocar sensor 
+//#define   mpx5_ASTA   -0.0493  //-0.0051
+//#define   Ixx5_ASTA   0.00003284 //0.00000028
+//#define   Iyy5_ASTA   0.01866//0.00169
+//#define   Izz5_ASTA   0.01866//0.00169
 
 
 #endif 

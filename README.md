@@ -7,4 +7,7 @@ Copy the package in the dvrk-ros folder and compile with catkin build
 
 # Contents
 The folders MTM-dynamics and PSM-dynamics contains respectively all the symbolic and optimized function for the MTM and the PSM dynamic model. 
-The functions names respects the nomenclature reported in the book ..... Hence B: Inertia matrix, C:Coriolis and centrifugal therms, ...
+The functions names respects the nomenclature reported in the book 
+
+B. Siciliano, L. Villani, Sciavlìicco
+Robotics: Modelling, Planning and Control 2010 Springer

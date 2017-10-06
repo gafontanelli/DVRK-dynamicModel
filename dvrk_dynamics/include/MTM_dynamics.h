@@ -34,7 +34,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <math.h>
-#include "dvrk_dynamics/MTM_dynamics_parameters.h"
+#include "MTM_dynamics_parameters.h"
 #include <TooN/TooN.h>
 
 using namespace TooN;
@@ -47,9 +47,6 @@ class MTM_dynamics
 		MTM_dynamics(int n);
 		
 		Matrix<6,7> MTM_J(Vector<7> q);	//B
-
-		Matrix<3,3> MTM_dJ3(Vector<7> q, Vector<7> dq);	//B
-
 		Matrix<4,4> MTM_Te(Vector<7> q);	//B
 
 

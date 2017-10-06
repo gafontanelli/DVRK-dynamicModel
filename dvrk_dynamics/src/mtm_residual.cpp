@@ -45,7 +45,7 @@
 #include <string.h>
 
 
-#include "dvrk_dynamics/MTM_dynamics.h"
+#include "MTM_dynamics.h"
 
 #define mtmName MTML
 
@@ -105,7 +105,6 @@ int main(int argc, char** argv)
     Matrix <7,7> C = Zeros;
     Matrix <6,7> J = Zeros;
 
-    Matrix<3,3> dJ3 = Zeros;
     Matrix<4> Te = Zeros;
 
     Vector<3> external_forces = Zeros;
@@ -145,7 +144,6 @@ int main(int argc, char** argv)
 
         J = mtm_dyn.MTM_J(q);
         Te = mtm_dyn.MTM_Te(q);
-        dJ3 = mtm_dyn.MTM_dJ3(q,dq);
 
 
         LU<3,double> Core_Jo_T = J.slice<3,0,3,7>()*J.slice<3,0,3,7>().T();

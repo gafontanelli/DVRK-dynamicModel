@@ -26,11 +26,9 @@ set(PSM_SRC_FILES
 	src/PSM-dynamics/PSM_F.cpp
 
 	src/PSM-dynamics/PSM_J.cpp
-	src/PSM-dynamics/PSM_J3.cpp
-	src/PSM-dynamics/PSM_J4.cpp
+
 	src/PSM-dynamics/PSM_Te.cpp
-	src/PSM-dynamics/PSM_T3.cpp
-    src/PSM-dynamics/PSM_T4.cpp
+
 
 	
 )
@@ -42,7 +40,7 @@ set(MTM_SRC_FILES
 	src/MTM-dynamics/MTM_G.cpp
     src/MTM-dynamics/MTM_K.cpp
 	src/MTM-dynamics/MTM_F.cpp
-	src/MTM-dynamics/MTM_dJ3.cpp
+
 	src/MTM-dynamics/MTM_J.cpp
 	src/MTM-dynamics/MTM_Te.cpp
 
@@ -238,18 +236,18 @@ include_directories(
 
 
 add_executable(PSM_residual
-  include/dvrk_dynamics/psm_residual.h
+  include/dvrk_dynamics/PSM_residual.h
   include/dvrk_dynamics/PSM_dynamics.h
-  src/psm_residual.cpp)
+  src/PSM_residual.cpp)
 target_link_libraries(PSM_residual
    ${catkin_LIBRARIES} PSM_dynamics
 ) 
 
 
 add_executable(MTM_residual
-  include/dvrk_dynamics/mtm_residual.h
+  include/dvrk_dynamics/MTM_residual.h
   include/dvrk_dynamics/MTM_dynamics.h
-  src/mtm_residual.cpp)
+  src/MTM_residual.cpp)
 target_link_libraries(MTM_residual
    ${catkin_LIBRARIES} MTM_dynamics
 ) 

@@ -43,7 +43,7 @@
 #include <TooN/LU.h>
 
 #include <string.h>
-#include "dvrk_dynamics/PSM_dynamics.h"
+#include "PSM_dynamics.h"
 
 using namespace TooN;
 
@@ -105,7 +105,6 @@ int main(int argc, char** argv)
     Matrix<3,6> Jo_inv_T = Zeros;
 
     Matrix<4> Te_inv = Zeros;
-    Matrix<4> T3_inv = Zeros;
 
     Matrix <6,6> B = Zeros;
     Vector <6> G = Zeros;
@@ -115,10 +114,8 @@ int main(int argc, char** argv)
     Matrix <6,6> J = Zeros;
 
     Matrix <4,4> Te = Zeros;
-    Matrix <4,4> T3 = Zeros;
-    Matrix <4,4> T4 = Zeros;
 
-    Matrix <3> R = Zeros;
+
 
     Vector<3> external_forces = Zeros;
 
@@ -150,15 +147,6 @@ int main(int argc, char** argv)
         }
 
 
-		R[0][0]=cos(q[3]-3.14/2);
-		R[0][1]=-sin(q[3]-3.14/2);
-		R[0][2]=0;
-		R[1][0]=sin(q[3]-3.14/2);
-		R[1][1]=cos(q[3]-3.14/2);
-		R[1][2]=0;
-		R[2][0]=0;
-		R[2][1]=0;
-		R[2][2]=1;
 
 
         B = psm_dyn.PSM_B(q);
@@ -173,7 +161,6 @@ int main(int argc, char** argv)
 
 
         Te = psm_dyn.PSM_Te(q);
-        T3 = psm_dyn.PSM_T3(q);
 
         LU<3,double> Core_Jo_T = J.slice<3,0,3,7>()*J.slice<3,0,3,6>().T();
 		LU<3,double> Core_Jp_T = J.slice<0,0,3,3>().T()*J.slice<0,0,3,3>();

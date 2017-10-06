@@ -35,7 +35,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <math.h>
-#include "dvrk_dynamics/PSM1_dynamics_parameters.h"
+#include "PSM_dynamics_parameters.h"
 #include <TooN/TooN.h>
 
 using namespace TooN;
@@ -48,11 +48,8 @@ class PSM_dynamics
 		PSM_dynamics(int n);
 		
 		Matrix<6,6> PSM_J(Vector<6> q);	//B
-		Matrix<6,3> PSM_J3(Vector<6> q);	//B
-		Matrix<6,4> PSM_J4(Vector<6> q);	//B
 		Matrix<4,4> PSM_Te(Vector<6> q);	//B
-		Matrix<4,4> PSM_T3(Vector<6> q);	//B
-		Matrix<4,4> PSM_T4(Vector<6> q);	//B
+
 
 
 		Matrix<6,6> PSM_B(Vector<6> q);	//B
