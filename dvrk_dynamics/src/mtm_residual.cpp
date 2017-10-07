@@ -39,9 +39,6 @@
 #include <std_msgs/Float32.h>
 #include <std_msgs/Int8.h>
 
-#include <TooN/TooN.h>
-#include <TooN/LU.h>
-
 #include <string.h>
 
 
@@ -49,15 +46,11 @@
 
 #define mtmName MTML
 
-using namespace TooN;
-
 // set up joint state variables
 
 std::vector<double> mtm_joint_position;
 std::vector<double> mtm_joint_velocity;
 std::vector<double> mtm_joint_effort;
-
-Vector<3> xd = Zeros;
 
 // psm joint feedback (joint_state_publisher)
 void state_joint_current_cb(const sensor_msgs::JointState &msg)
@@ -84,31 +77,31 @@ int main(int argc, char** argv)
 
     MTM_dynamics mtm_dyn(3);
 
-    Vector<7> q = Zeros;
-    Vector<7> dq = Zeros;
-    Vector<7> tau = Zeros;
+    Vector7d q = Vector7d::Zero();
+    Vector7d dq = Vector7d::Zero();
+    Vector7d tau = Vector7d::Zero();
 
-    Vector<7> In = Zeros;
-    Vector<7> res = Zeros;
+    Vector7d In = Vector7d::Zero();
+    Vector7d res = Vector7d::Zero();
 
-    Vector<6> dq_temp = Zeros;
-    Vector<6> tau_temp = Zeros;
-	
-	Matrix<3,3> Jp_inv_T = Zeros;
-    Matrix<3,7> Jo_inv_T = Zeros;
-    Matrix<4> Te_inv = Zeros;
+    Matrix3d Jp_inv_T = Matrix3d::Zero();
+    Matrix<double, 3,7> Jo_inv_T = Matrix<double, 3,7>::Zero();
 
-    Matrix <7,7> B = Zeros;
-    Vector <7> G = Zeros;
-    Vector <7> F = Zeros;
-    Vector <7> K = Zeros;
-    Matrix <7,7> C = Zeros;
-    Matrix <6,7> J = Zeros;
+    Matrix7d B = Matrix7d::Zero();
+    Vector7d G = Vector7d::Zero();
+    Vector7d F = Vector7d::Zero();
+    Vector7d K = Vector7d::Zero();
+    Matrix7d C = Matrix7d::Zero();
+    Matrix<double, 6,7> J = Matrix<double, 6,7>::Zero();
 
-    Matrix<4> Te = Zeros;
+    Matrix4d Te = Matrix4d::Zero();
 
-    Vector<3> external_forces = Zeros;
-	Vector<3> external_torques = Zeros;
+
+
+    Vector3d external_forces = Vector3d::Zero();
+
+    Vector3d external_torques = Vector3d::Zero();
+
 
 
     float Ki = 5; 
@@ -125,15 +118,15 @@ int main(int argc, char** argv)
 
 
         if (mtm_joint_position.size() > 0){
-        q = makeVector(mtm_joint_position[0],mtm_joint_position[1],mtm_joint_position[2],mtm_joint_position[3],mtm_joint_position[4],mtm_joint_position[5],mtm_joint_position[6]);
+            q  << mtm_joint_position[0], mtm_joint_position[1],mtm_joint_position[2],mtm_joint_position[3],mtm_joint_position[4],mtm_joint_position[5],mtm_joint_position[6];
         }
 
         if (mtm_joint_velocity.size() > 0){
-        dq = makeVector(mtm_joint_velocity[0],mtm_joint_velocity[1],mtm_joint_velocity[2],mtm_joint_velocity[3],mtm_joint_velocity[4],mtm_joint_velocity[5],mtm_joint_velocity[6]);
+        dq  << mtm_joint_velocity[0],mtm_joint_velocity[1],mtm_joint_velocity[2],mtm_joint_velocity[3],mtm_joint_velocity[4],mtm_joint_velocity[5],mtm_joint_velocity[6];
         }
 
         if (mtm_joint_effort.size() > 0){
-        tau = makeVector(mtm_joint_effort[0],mtm_joint_effort[1],mtm_joint_effort[2],mtm_joint_effort[3],mtm_joint_effort[4],mtm_joint_effort[5],mtm_joint_effort[6]);
+        tau  << mtm_joint_effort[0],mtm_joint_effort[1],mtm_joint_effort[2],mtm_joint_effort[3],mtm_joint_effort[4],mtm_joint_effort[5],mtm_joint_effort[6];
         }
 
         B = mtm_dyn.MTM_B(q);
@@ -146,18 +139,22 @@ int main(int argc, char** argv)
         Te = mtm_dyn.MTM_Te(q);
 
 
-        LU<3,double> Core_Jo_T = J.slice<3,0,3,7>()*J.slice<3,0,3,7>().T();
-		LU<3,double> Core_Jp_T = J.slice<0,0,3,3>().T()*J.slice<0,0,3,3>();
+        //LU<3,double> Core_Jo_T = J.slice<3,0,3,7>()*J.slice<3,0,3,7>().T();
+		//LU<3,double> Core_Jp_T = J.slice<0,0,3,3>().T()*J.slice<0,0,3,3>();
 
-        Jp_inv_T = J.slice<0,0,3,3>()*Core_Jp_T.get_inverse();
-        Jo_inv_T = Core_Jo_T.get_inverse() * J.slice<3,0,3,7>();
+
+        FullPivLU<Matrix3d> Core_Jo_T(J.block(3,0,3,7)*J.block(3,0,3,7).transpose());
+
+        FullPivLU<Matrix3d> Core_Jp_T(J.block(0,0,3,3).transpose()*J.block(0,0,3,3));
 
   
-        In = In + (tau + C.T()*dq - F - G - K + res)*Tsam; 
-        res = Ki*(B*dq - In);
 
-        external_forces = Jp_inv_T*makeVector(res[0],res[1],res[2]);
+        In = In + (tau + C.transpose()*dq - F - G - K + res)*Tsam;
+        res = Ki*(B*dq - In);
+        
+        external_forces = Jp_inv_T*res.head(3);
         external_torques = Jo_inv_T*res;
+        
        
         msg_wrench_ext.force.x = external_forces[0];
         msg_wrench_ext.force.y = external_forces[1];

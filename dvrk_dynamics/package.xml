@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package>
-  <name>dvrk_sensing</name>
+  <name>dvrk_dynamics</name>
   <version>0.0.0</version>
-  <description>The dvrk_sensing package</description>
+  <description>The dvrk_dynamics package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag --> 
   <!-- Example:  -->
@@ -19,7 +19,7 @@
   <!-- Url tags are optional, but mutiple are allowed, one per tag -->
   <!-- Optional attribute type can be: website, bugtracker, or repository -->
   <!-- Example: -->
-  <!-- <url type="website">http://wiki.ros.org/dvrk_sensing_mio</url> -->
+  <!-- <url type="website">http://wiki.ros.org/dvrk_dynamics</url> -->
 
 
   <!-- Author tags are optional, mutiple are allowed, one per tag -->

@@ -36,9 +36,13 @@
 #include <stdio.h>
 #include <math.h>
 #include "PSM_dynamics_parameters.h"
-#include <TooN/TooN.h>
+#include <Eigen/Dense>
 
-using namespace TooN;
+using namespace Eigen;
+typedef Matrix<double, 6, 1> Vector6d;
+typedef Matrix<double, 7, 1> Vector7d;
+typedef Matrix<double, 6, 6> Matrix6d;
+
 
 class PSM_dynamics
 {
@@ -47,18 +51,18 @@ class PSM_dynamics
 		/* brief Constructor. */
 		PSM_dynamics(int n);
 		
-		Matrix<6,6> PSM_J(Vector<6> q);	//B
-		Matrix<4,4> PSM_Te(Vector<6> q);	//B
+		Matrix6d PSM_J(Vector7d q, Vector6d qs);	//B
+		Matrix4d PSM_Te(Vector7d q, Vector6d qs);	//B
 
 
 
-		Matrix<6,6> PSM_B(Vector<6> q);	//B
-		Matrix<6> PSM_C(Vector<6> q, Vector<6> dq);
+		Matrix6d PSM_B(Vector7d q, Vector6d qs);	//B
+		Matrix6d PSM_C(Vector7d q, Vector7d dq, Vector6d qs);
 
 
-		Vector<6> PSM_G(Vector<6> q);	//B1
-		Vector<6> PSM_K(Vector<6> q);	//B1
-		Vector<7> PSM_F(Vector<7> dq);	//B1
+		Vector6d PSM_G(Vector7d q, Vector6d qs);	//B1
+		Vector6d PSM_K(Vector7d q);	//B1
+		Vector7d PSM_F(Vector7d dq);	//B1
 
 };
 

@@ -34,11 +34,12 @@
 #include <string.h>
 #include <stdio.h>
 #include <math.h>
-#include "MTM_dynamics_parameters.h"
-#include <TooN/TooN.h>
+#include "MTML_dynamics_parameters.h"
+#include <Eigen/Dense>
 
-using namespace TooN;
-
+using namespace Eigen;
+typedef Matrix<double, 7, 1> Vector7d;
+typedef Matrix<double, 7, 7> Matrix7d;
 class MTM_dynamics
 {
 	public:
@@ -46,16 +47,16 @@ class MTM_dynamics
 		/* brief Constructor. */
 		MTM_dynamics(int n);
 		
-		Matrix<6,7> MTM_J(Vector<7> q);	//B
-		Matrix<4,4> MTM_Te(Vector<7> q);	//B
+		Matrix<double, 6, 7> MTM_J(Vector7d q);	//B
+		Matrix4d MTM_Te(Vector7d q);	//B
 
 
 
-		Matrix<7,7> MTM_B(Vector<7> q);	//B
-		Matrix<7,7> MTM_C(Vector<7> q, Vector<7> dq);
-		Vector<7> MTM_G(Vector<7> q);	//B1
-		Vector<7> MTM_K(Vector<7> q);	//B1
-		Vector<7> MTM_F(Vector<7> dq);	//B1
+		Matrix7d MTM_B(Vector7d q);	//B
+		Matrix7d MTM_C(Vector7d q, Vector7d dq);
+		Vector7d MTM_G(Vector7d q);	//B1
+		Vector7d MTM_K(Vector7d q);	//B1
+		Vector7d MTM_F(Vector7d dq);	//B1
 
 
 

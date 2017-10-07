@@ -39,13 +39,9 @@
 #include <std_msgs/Float32.h>
 #include <std_msgs/Int8.h>
 
-#include <TooN/TooN.h>
-#include <TooN/LU.h>
 
 #include <string.h>
 #include "PSM_dynamics.h"
-
-using namespace TooN;
 
 // set up joint state variables
 
@@ -89,37 +85,36 @@ int main(int argc, char** argv)
     PSM_dynamics psm_dyn(3);
    
 
-    Vector<6> q = Zeros;
-    Vector<7> dq = Zeros;
-    Vector<6> tau = Zeros;
+    Vector7d q = Vector7d::Zero();
+    Vector7d dq = Vector7d::Zero();
+    Vector6d tau = Vector6d::Zero();
+    Vector6d qs = Vector6d::Zero();
 
-    Vector<6> In = Zeros;
-    Vector<6> res = Zeros;
-
-
-    Vector<6> dq_temp = Zeros;
-    Vector<6> tau_temp = Zeros;
-
-    Matrix<6> J_inv_T = Zeros;
-    Matrix<3,3> Jp_inv_T = Zeros;
-    Matrix<3,6> Jo_inv_T = Zeros;
-
-    Matrix<4> Te_inv = Zeros;
-
-    Matrix <6,6> B = Zeros;
-    Vector <6> G = Zeros;
-    Vector <7> F = Zeros;
-    Vector <6> K = Zeros;
-    Matrix <6> C = Zeros;
-    Matrix <6,6> J = Zeros;
-
-    Matrix <4,4> Te = Zeros;
+    Vector6d In = Vector6d::Zero();
+    Vector6d res = Vector6d::Zero();
 
 
+    Vector6d dq_temp = Vector6d::Zero();
+    Vector6d tau_temp = Vector6d::Zero();
 
-    Vector<3> external_forces = Zeros;
+    Matrix6d J_inv_T = Matrix6d::Zero();
+    Matrix3d Jp_inv_T = Matrix3d::Zero();
+    Matrix<double, 3,6> Jo_inv_T = Matrix<double, 3,6>::Zero();
 
-    Vector<3> external_torques = Zeros;
+    Matrix6d B = Matrix6d::Zero();
+    Vector6d G = Vector6d::Zero();
+    Vector7d F = Vector7d::Zero();
+    Vector6d K = Vector6d::Zero();
+    Matrix6d C = Matrix6d::Zero();
+    Matrix6d J = Matrix6d::Zero();
+
+    Matrix4d Te = Matrix4d::Zero();
+
+
+
+    Vector3d external_forces = Vector3d::Zero();
+
+    Vector3d external_torques = Vector3d::Zero();
 
     float Ki = 20; 
 
@@ -135,44 +130,50 @@ int main(int argc, char** argv)
 
 
         if (psm_joint_position.size() > 0){
-            q = makeVector(psm_joint_position[0],psm_joint_position[1],psm_joint_position[2],psm_joint_position[3],psm_joint_position[4],psm_joint_position[5]);
+            q  << psm_joint_position[0], psm_joint_position[1],psm_joint_position[2],psm_joint_position[3],psm_joint_position[4],psm_joint_position[5],psm_joint_position[6];
         }
 
         if (psm_joint_velocity.size() > 0){
-        dq = makeVector(psm_joint_velocity[0],psm_joint_velocity[1],psm_joint_velocity[2],psm_joint_velocity[3],psm_joint_velocity[4],psm_joint_velocity[5],psm_joint_velocity[6]);
+        dq  << psm_joint_velocity[0],psm_joint_velocity[1],psm_joint_velocity[2],psm_joint_velocity[3],psm_joint_velocity[4],psm_joint_velocity[5],psm_joint_velocity[6];
         }
 
         if (psm_joint_effort.size() > 0){
-        tau = makeVector(psm_joint_effort[0],psm_joint_effort[1],psm_joint_effort[2],psm_joint_effort[3],psm_joint_effort[4],psm_joint_effort[5]);
+        tau  << psm_joint_effort[0],psm_joint_effort[1],psm_joint_effort[2],psm_joint_effort[3],psm_joint_effort[4],psm_joint_effort[5],psm_joint_effort[6];
         }
 
 
 
 
-        B = psm_dyn.PSM_B(q);
-        G = psm_dyn.PSM_G(q);
+        B = psm_dyn.PSM_B(q,qs);
+        G = psm_dyn.PSM_G(q,qs);
 
         K = psm_dyn.PSM_K(q);
 
         F = psm_dyn.PSM_F(dq);
 
-        C = psm_dyn.PSM_C(q,dq.slice<0,6>());
-        J = psm_dyn.PSM_J(q);
+        C = psm_dyn.PSM_C(q,dq,qs);
+        J = psm_dyn.PSM_J(q,qs);
 
 
-        Te = psm_dyn.PSM_Te(q);
+        Te = psm_dyn.PSM_Te(q,qs);
 
-        LU<3,double> Core_Jo_T = J.slice<3,0,3,7>()*J.slice<3,0,3,6>().T();
-		LU<3,double> Core_Jp_T = J.slice<0,0,3,3>().T()*J.slice<0,0,3,3>();
+        //LU<3,double> Core_Jo_T = J.slice<3,0,3,6>()*J.slice<3,0,3,6>().T();
+		//LU<3,double> Core_Jp_T = J.slice<0,0,3,3>().T()*J.slice<0,0,3,3>();
 
-        Jp_inv_T = J.slice<0,0,3,3>()*Core_Jp_T.get_inverse();
-        Jo_inv_T = Core_Jo_T.get_inverse() * J.slice<3,0,3,6>();
+
+        FullPivLU<Matrix3d> Core_Jo_T(J.block(3,0,3,6)*J.block(3,0,3,6).transpose());
+
+        FullPivLU<Matrix3d> Core_Jp_T(J.block(0,0,3,3).transpose()*J.block(0,0,3,3));
+
+
+        Jp_inv_T = J.block(0,0,3,3)*Core_Jp_T.inverse();
+        Jo_inv_T = Core_Jo_T.inverse() * J.block(3,0,3,6);
 
    
-        In = In + (tau + C.T()*dq.slice<0,6>() - F.slice<0,6>() - G - K + res)*Tsam;
-        res = Ki*(B*dq.slice<0,6>() - In);
+        In = In + (tau + C.transpose()*dq.head(6) - F.head(6) - G - K + res)*Tsam;
+        res = Ki*(B*dq.head(6) - In);
 		
-        external_forces = Jp_inv_T*makeVector(res[0],res[1],res[2]);
+        external_forces = Jp_inv_T*res.head(3);
         external_torques = Jo_inv_T*res;
 		
         msg_wrench_ext.force.x = external_forces[0];
