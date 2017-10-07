@@ -7,7 +7,8 @@ Copy the package in the dvrk-ros folder and compile with catkin build
 
 # Contents
 The folders MTM-dynamics and PSM-dynamics contains respectively all the symbolic and optimized function for the MTM and the PSM dynamic model. 
-The functions names respects the nomenclature reported in the book [1]
+The functions names respects the nomenclature reported in the book [1]. Hence: B is the inertia batrix, C is the coriolis and centrifugal matrix, G is the gravity matrix, F is the friction matrix, K is the elasticity matrix, J is the jacobian matrix, Te is the direct kinematics matrix.
+
 
 
 ---
