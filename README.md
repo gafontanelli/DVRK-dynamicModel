@@ -13,5 +13,5 @@ The functions names respects the nomenclature reported in the book [1]
 ---
 References:
 
--[1] B. Siciliano, L. Villani, Sciavlìicco, "Robotics: Modelling, Planning and Control", 2010, Springer
+	- [1] B. Siciliano, L. Villani, Sciavlìicco, "Robotics: Modelling, Planning and Control", 2010, Springer
 ---
