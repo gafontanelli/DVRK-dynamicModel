@@ -39,10 +39,135 @@
 
 
 //******************************************************************************
-MTM_dynamics::MTM_dynamics(int n)
-{
+MTM_dynamics::MTM_dynamics(string psmName, string paramFile){
+
+	if(read_parameters_from_file(paramFile)){
+		cout << "Parameters load was successfull" << endl;
+	}else{
+		cout << "Parameters load has encountered problems" << endl;
+	}
 
 }
+
+bool MTM_dynamics::read_parameters_from_file(string paramFile){
+
+	ifstream file(paramFile.c_str());
+    
+    string line, param;
+    double value;
+    int check_file = 0;
+    
+    while (getline(file, line)) {
+        istringstream ss(line);
+        ss >> param >> value;
+        if      (param == "mass1")  mass1 = value;
+        else if (param == "mpx1")   mpx1 = value;
+        else if (param == "mpy1") 	mpy1 = value;
+        else if (param == "mpz1") 	mpz1 = value;
+        else if (param == "Ixx1") 	Ixx1 = value;
+        else if (param == "Iyy1") 	Iyy1 = value;
+        else if (param == "Izz1") 	Izz1 = value;
+        else if (param == "Ixy1") 	Ixy1 = value;
+        else if (param == "Ixz1") 	Ixz1 = value;
+        else if (param == "Iyz1") 	Iyz1 = value;
+        else if (param == "Fv1") 	Fv1 = value;
+        else if (param == "Fs1") 	Fs1 = value;
+        else if (param == "K1") 	K1 = value;
+        else if (param == "O1") 	O1 = value;
+        else if (param == "mass2") 	mass2 = value;
+        else if (param == "mpx2") 	mpx2 = value;
+        else if (param == "mpy2") 	mpy2 = value;
+        else if (param == "mpz2") 	mpz2 = value;
+        else if (param == "Ixx2") 	Ixx2 = value;
+        else if (param == "Iyy2") 	Iyy2 = value;
+        else if (param == "Izz2") 	Izz2 = value;
+        else if (param == "Ixy2") 	Ixy2 = value;
+        else if (param == "Fv2") 	Fv2 = value;
+        else if (param == "Fs2") 	Fs2 = value;
+        else if (param == "mass3")  mass3 = value;
+        else if (param == "mpx3")  	mpx3 = value;
+        else if (param == "mpy3") 	mpy3 = value;
+        else if (param == "mpz3") 	mpz3 = value;
+        else if (param == "Ixx3")	Ixx3 = value;
+        else if (param == "Iyy3")	Iyy3 = value;
+        else if (param == "Izz3")	Izz3 = value;
+        else if (param == "mass4")	mass4 = value;
+        else if (param == "mpx4")	mpx4 = value;
+        else if (param == "mpy4")	mpy4 = value;
+        else if (param == "mpz4")	mpz4 = value;
+        else if (param == "Ixx4")	Ixx4 = value;
+        else if (param == "Iyy4")	Iyy4 = value;
+        else if (param == "Izz4")	Izz4 = value;
+        else if (param == "mass5")	mass5 = value;
+        else if (param == "mpx5")	mpx5 = value;
+        else if (param == "mpy5")	mpy5 = value;
+        else if (param == "mpz5")	mpz5 = value;
+        else if (param == "Ixx5")	Ixx5 = value;
+        else if (param == "Iyy5")	Iyy5 = value;
+        else if (param == "Izz5")	Izz5 = value;
+        else if (param == "Ixz5")	Ixz5 = value;
+        else if (param == "Fv3") 	Fv3 = value;
+        else if (param == "Fs3") 	Fs3 = value;
+
+        else if (param == "mass6")	mass6 = value;
+        else if (param == "mpx6")	mpx6 = value;
+        else if (param == "mpy6")	mpy6 = value;
+        else if (param == "mpz6")	mpz6 = value;
+        else if (param == "Ixx6")	Ixx6 = value;
+        else if (param == "Iyy6")	Iyy6 = value;
+        else if (param == "Izz6")	Izz6 = value;
+
+        else if (param == "Fv4") 	Fv4 = value;
+        else if (param == "Fs4") 	Fs4 = value;
+        else if (param == "K4") 	K4 = value;
+        else if (param == "O4") 	O4 = value;
+
+        else if (param == "mass7")	mass7 = value;
+        else if (param == "mpx7")	mpx7 = value;
+        else if (param == "mpy7")	mpy7 = value;
+        else if (param == "mpz7")	mpz7 = value;
+        else if (param == "Ixx7")	Ixx7 = value;
+        else if (param == "Iyy7")	Iyy7 = value;
+        else if (param == "Izz7")	Izz7 = value;
+
+        else if (param == "Fv5") 	Fv5 = value;
+        else if (param == "Fs5") 	Fs5 = value;
+        else if (param == "K5") 	K5 = value;
+        else if (param == "O5") 	O5 = value;
+
+        else if (param == "mass8")	mass8 = value;
+        else if (param == "mpx8")	mpx8 = value;
+        else if (param == "mpy8")	mpy8 = value;
+        else if (param == "mpz8")	mpz8 = value;
+        else if (param == "Ixx8")	Ixx8 = value;
+        else if (param == "Iyy8")	Iyy8 = value;
+        else if (param == "Izz8")	Izz8 = value;
+
+        else if (param == "Fv6") 	Fv6 = value;
+        else if (param == "Fs6") 	Fs6 = value;
+        else if (param == "K6") 	K6 = value;
+        else if (param == "O6") 	O6 = value;
+
+        else if (param == "mass9") 	mass9 = value;
+        else if (param == "mpx9")	mpx9 = value;
+        else if (param == "mpy9")	mpy9 = value;
+        else if (param == "mpz9")	mpz9 = value;
+        else if (param == "Ixx9") 	Ixx9 = value;
+        else if (param == "Iyy9") 	Iyy9 = value;
+        else if (param == "Izz9") 	Izz9 = value;
+        else if (param == "Fv7") 	Fv7 = value;
+        else if (param == "Fs7") 	Fs7 = value;
+        check_file++;
+    }
+    if (check_file == 0)
+        return false;
+    else
+        return true;
+
+
+
+}
+
 
 
 // Inertia Matrix B

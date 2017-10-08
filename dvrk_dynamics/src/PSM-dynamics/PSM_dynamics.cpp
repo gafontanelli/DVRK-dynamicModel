@@ -39,8 +39,102 @@
 
 
 //******************************************************************************
-PSM_dynamics::PSM_dynamics(int n)
-{
+PSM_dynamics::PSM_dynamics(string psmName, string paramFile){
+
+	if(read_parameters_from_file(paramFile)){
+		cout << "Parameters load was successfull" << endl;
+	}else{
+		cout << "Parameters load has encountered problems" << endl;
+	}
+
+}
+
+bool PSM_dynamics::read_parameters_from_file(string paramFile){
+
+	ifstream file(paramFile.c_str());
+    
+    string line, param;
+    double value;
+    int check_file = 0;
+    
+    while (getline(file, line)) {
+        istringstream ss(line);
+        ss >> param >> value;
+        if      (param == "mass1")  mass1 = value;
+        else if (param == "mpx1")   mpx1 = value;
+        else if (param == "mpy1") 	mpy1 = value;
+        else if (param == "mpz1") 	mpz1 = value;
+        else if (param == "Ixx1") 	Ixx1 = value;
+        else if (param == "Iyy1") 	Iyy1 = value;
+        else if (param == "Izz1") 	Izz1 = value;
+        else if (param == "Ixy1") 	Ixy1 = value;
+        else if (param == "Ixz1") 	Ixz1 = value;
+        else if (param == "Iyz1") 	Iyz1 = value;
+        else if (param == "Fv1") 	Fv1 = value;
+        else if (param == "Fs1") 	Fs1 = value;
+        else if (param == "K1") 	K1 = value;
+        else if (param == "O1") 	O1 = value;
+        else if (param == "mass2") 	mass2 = value;
+        else if (param == "mpx2") 	mpx2 = value;
+        else if (param == "mpy2") 	mpy2 = value;
+        else if (param == "mpz2") 	mpz2 = value;
+        else if (param == "Ixx2") 	Ixx2 = value;
+        else if (param == "Izz2") 	Izz2 = value;
+        else if (param == "Fv2") 	Fv2 = value;
+        else if (param == "Fs2") 	Fs2 = value;
+        else if (param == "K2") 	K2 = value;
+        else if (param == "O2") 	O2 = value;
+        else if (param == "mass3")  mass3 = value;
+        else if (param == "mpx3")  	mpx3 = value;
+        else if (param == "mpy3") 	mpy3 = value;
+        else if (param == "mpz3") 	mpz3 = value;
+        else if (param == "Ixx3")	Ixx3 = value;
+        else if (param == "Iyy3")	Iyy3 = value;
+        else if (param == "Izz3")	Izz3 = value;
+        else if (param == "mass4")	mass4 = value;
+        else if (param == "mpx4")	mpx4 = value;
+        else if (param == "mpy4")	mpy4 = value;
+        else if (param == "mpz4")	mpz4 = value;
+        else if (param == "Ixx4")	Ixx4 = value;
+        else if (param == "Iyy4")	Iyy4 = value;
+        else if (param == "Izz4")	Izz4 = value;
+        else if (param == "Ixy4")	Ixy4 = value;
+        else if (param == "Ixz4")	Ixz4 = value;
+        else if (param == "Iyz4")	Iyz4 = value;
+        else if (param == "mass5")	mass5 = value;
+        else if (param == "mpx5")	mpx5 = value;
+        else if (param == "mpy5")	mpy5 = value;
+        else if (param == "mpz5")	mpz5 = value;
+        else if (param == "Ixx5")	Ixx5 = value;
+        else if (param == "Iyy5")	Iyy5 = value;
+        else if (param == "Izz5")	Izz5 = value;
+        else if (param == "Ixy5")	Ixy5 = value;
+        else if (param == "Ixz5")	Ixz5 = value;
+        else if (param == "Iyz5")	Iyz5 = value;
+        else if (param == "Fv3") 	Fv3 = value;
+        else if (param == "Fs3") 	Fs3 = value;
+        else if (param == "Fv4") 	Fv4 = value;
+        else if (param == "Fs4") 	Fs4 = value;
+        else if (param == "K4") 	K4 = value;
+        else if (param == "O4") 	O4 = value;
+        else if (param == "Fv5") 	Fv5 = value;
+        else if (param == "Fs5") 	Fs5 = value;
+        else if (param == "Fv6") 	Fv6 = value;
+        else if (param == "Fs6") 	Fs6 = value;
+        else if (param == "Fv7") 	Fv7 = value;
+        else if (param == "Fs7") 	Fs7 = value;
+        else if (param == "mass9") 	mass9 = value;
+        else if (param == "Ixx9") 	Ixx9 = value;
+        else if (param == "Iyy9") 	Iyy9 = value;
+        else if (param == "Izz9") 	Izz9 = value;
+        check_file++;
+    }
+    if (check_file == 0)
+        return false;
+    else
+        return true;
+
+
 
 }
 

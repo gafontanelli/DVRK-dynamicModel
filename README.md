@@ -1,5 +1,5 @@
 # dvrk dynamics
-This package has code related to daVinci arms dynamic model. 
+This package has code related to the daVinci arms dynamic model. 
 The dvrk_dynamics is a ros package containing the function for the dynamics, kinematics and for the external force reconstruction.
 
 # Install

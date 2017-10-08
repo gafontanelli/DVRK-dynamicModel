@@ -75,7 +75,7 @@ int main(int argc, char** argv)
     ros::Subscriber joint_state = nh.subscribe("/dvrk/MTML/state_joint_current", 1, state_joint_current_cb);
     ros::Publisher external_forces_pub = nh.advertise<geometry_msgs::Wrench>("/dvrk/MTML/external_wrench", 1);
 
-    MTM_dynamics mtm_dyn(3);
+    MTM_dynamics mtm_dyn("MTML", "MTML_param.txt");
 
     Vector7d q = Vector7d::Zero();
     Vector7d dq = Vector7d::Zero();
