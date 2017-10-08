@@ -1,0 +1,32 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/MTM_dynamics.h
+stdlib.h
+-
+iostream
+-
+string.h
+-
+fstream
+-
+stdio.h
+-
+math.h
+-
+Eigen/Dense
+-
+
+/home/andrea/Desktop/DVRK-dynamicModel/dvrk_dynamics/src/MTM_dynamics.cpp
+stdio.h
+-
+math.h
+-
+MTM_dynamics.h
+/home/andrea/Desktop/DVRK-dynamicModel/dvrk_dynamics/src/MTM_dynamics.h
+
