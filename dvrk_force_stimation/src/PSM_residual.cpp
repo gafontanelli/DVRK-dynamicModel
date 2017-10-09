@@ -82,7 +82,10 @@ int main(int argc, char** argv)
 
     ros::Publisher external_forces_pub = nh.advertise<geometry_msgs::Wrench>("/dvrk/PSM1/external_wrench", 1);
 
-    PSM_dynamics psm_dyn("PSM1", "PSM_param.txt");
+    string LIB_D(LIB_DIRECTORY); 
+    string param_D("/PSM_param.txt");
+
+    PSM_dynamics psm_dyn("PSM1", LIB_D+param_D);
    
 
     Vector7d q = Vector7d::Zero();

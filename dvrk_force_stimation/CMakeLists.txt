@@ -21,6 +21,9 @@ find_package(catkin REQUIRED COMPONENTS
 
 set(CMAKE_CXX_FLAGS "-std=c++0x")
 
+set(LIB_DIR lib/)
+
+add_definitions(-DLIB_DIRECTORY="${CMAKE_CURRENT_SOURCE_DIR}/lib/parameters")
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -128,6 +131,9 @@ include_directories(
 include_directories(
  ${/usr/include/eigen3}
 )
+
+include_directories(${LIB_DIR}/include)
+link_directories(${LIB_DIR}/build)
 ## Declare a C++ library
 # add_library(dvrk_sensing_mio
 #   src/${PROJECT_NAME}/dvrk_sensing_mio.cpp
@@ -202,13 +208,13 @@ include_directories(
 add_executable(PSM_residual
   src/PSM_residual.cpp)
 target_link_libraries(PSM_residual
-   lib/ PSM_dynamics
+   PSM_dynamics ${catkin_LIBRARIES}
 ) 
 
 
 add_executable(MTM_residual
   src/MTM_residual.cpp)
 target_link_libraries(MTM_residual
-   lib/ MTM_dynamics
+   MTM_dynamics ${catkin_LIBRARIES}
 ) 
 

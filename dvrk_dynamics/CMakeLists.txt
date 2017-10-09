@@ -10,7 +10,7 @@ include_directories(${CMAKE_SOURCE_DIR}/../)
 
 # set output paths
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
-
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
 # set mbed source files
 set(PSM_SRC_FILES  
 	src/PSM_dynamics.cpp	
@@ -27,10 +27,10 @@ set(MTM_SRC_FILES
 # add custom flags to c++ compiler
 set(CMAKE_CXX_FLAGS "-std=c++0x")
 
-add_library(PSM_dynamics ${PSM_SRC_FILES})
+add_library(PSM_dynamics SHARED ${PSM_SRC_FILES})
 target_link_libraries(PSM_dynamics lapack)
 
-add_library(MTM_dynamics ${MTM_SRC_FILES})
+add_library(MTM_dynamics SHARED ${MTM_SRC_FILES})
 target_link_libraries(MTM_dynamics lapack)
 
 

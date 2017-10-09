@@ -20,7 +20,10 @@
  * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
  * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
  * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF  string LIB_D(LIB_DIRECTORY); 
+    string param_D("/PSM_param.txt");
+
+    PSM_dynamics psm_dyn("PSM1", LIB_D+param_D LIABILITY, WHETHER IN
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
@@ -75,7 +78,10 @@ int main(int argc, char** argv)
     ros::Subscriber joint_state = nh.subscribe("/dvrk/MTML/state_joint_current", 1, state_joint_current_cb);
     ros::Publisher external_forces_pub = nh.advertise<geometry_msgs::Wrench>("/dvrk/MTML/external_wrench", 1);
 
-    MTM_dynamics mtm_dyn("MTML", "MTML_param.txt");
+    string LIB_D(LIB_DIRECTORY); 
+    string param_D("/MTML_param.txt");
+
+    MTM_dynamics mtm_dyn("MTML", LIB_D+param_D);
 
     Vector7d q = Vector7d::Zero();
     Vector7d dq = Vector7d::Zero();

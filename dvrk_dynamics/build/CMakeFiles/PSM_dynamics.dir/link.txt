@@ -1,2 +1,1 @@
-/usr/bin/ar qc ../lib/libPSM_dynamics.a  CMakeFiles/PSM_dynamics.dir/src/PSM_dynamics.cpp.o
-/usr/bin/ranlib ../lib/libPSM_dynamics.a
+/usr/bin/c++  -fPIC -std=c++0x  -shared -Wl,-soname,libPSM_dynamics.so -o ../lib/libPSM_dynamics.so CMakeFiles/PSM_dynamics.dir/src/PSM_dynamics.cpp.o -llapack 
