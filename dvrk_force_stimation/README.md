@@ -11,7 +11,7 @@ The functions names respects the nomenclature reported in the book [1]. Hence: B
 It's possible to create a PSM or a MTM arm using the class constructor.
 
 ```C++
-X_dynamics A('arm name', parameter_path); 
+X_dynamics A(arm name, parameter_path); 
 ```
 
 (X=MTM or X=PSM) as it is reported in the example program example.cpp.
