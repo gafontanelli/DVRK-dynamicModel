@@ -19,9 +19,9 @@ X_dynamics A(arm_name, parameter_path);
 
 ```C++
 Matrix6d PSM_dynamics::PSM_B(Vector7d q) 
-```
+
 calculate the 6X6 PSM inertia matrix. It requires the input 7X1 vector q of the joint position.
- 
+```
 
 ```C++
 Matrix6d PSM_dynamics::PSM_C(Vector7d q, Vector7d dq) 
@@ -44,7 +44,7 @@ The static frictoion is obtained using a continue function based on the hyperbol
 ```C++
 Vector6d PSM_dynamics::PSM_K(Vector7d q) 
 ```
-calculate the kX1 PSM elasticity vector. It requires the input 7X1 vector d of the joint positions. [2].
+calculate the 6X1 PSM elasticity vector. It requires the input 7X1 vector d of the joint positions. [2].
 
 ---
 References:
