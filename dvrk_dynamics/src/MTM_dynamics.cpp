@@ -39,14 +39,24 @@
 
 
 //******************************************************************************
-MTM_dynamics::MTM_dynamics(string psmName, string paramFile){
+MTM_dynamics::MTM_dynamics(string _robName, string _paramFile){
+	
+	robName = _robName;
 
-	if(read_parameters_from_file(paramFile)){
+	if(read_parameters_from_file(_paramFile)){
 		cout << "Parameters load was successfull" << endl;
 	}else{
 		cout << "Parameters load has encountered problems" << endl;
 	}
 
+}
+
+
+VectorXd MTM_dynamics::get_parameters(){
+    Matrix<double, 1,90> param;
+
+    param << mass1, mpx1,mpy1,mpz1,Ixx1,Iyy1,Izz1,Ixy1,Ixz1,Iyz1,Fv1,Fs1,K1,O1,mass2,mpx2,mpy2,mpz2,Ixx2,Iyy2,Izz2,Ixy2,Fv2,Fs2,mass3,mpx3,mpy3,mpz3,Ixx3,Iyy3,Izz3,mass4,mpx4,mpy4,mpz4,Ixx4,Iyy4,Izz4,mass5,mpx5,mpy5,mpz5,Ixx5,Iyy5,Izz5,Ixz5,Fv3,Fs3,mass6,mpx6,mpy6,mpz6,Ixx6,Iyy6,Izz6,Fv4,Fs4,K4,O4,mass7,mpx7,mpy7,mpz7,Ixx7,Iyy7,Izz7,Fv5,Fs5,K5,O5,mass8,mpx8,mpy8,mpz8,Ixx8,Iyy8,Izz8,Fv6,Fs6,K6,O6,mass9,mpx9,mpy9,mpz9,Ixx9,Iyy9,Izz9,Fv7,Fs7;
+    return param;
 }
 
 bool MTM_dynamics::read_parameters_from_file(string paramFile){
@@ -171,7 +181,7 @@ bool MTM_dynamics::read_parameters_from_file(string paramFile){
 
 
 // Inertia Matrix B
-Matrix7d MTM_dynamics::MTM_B(Vector7d q){
+Matrix7d MTM_dynamics::B(Vector7d q){
 
 Matrix7d A0 = Matrix7d::Zero();
 double q1 = q[0];
@@ -872,7 +882,7 @@ return A0;
 
 // Inertia Matrix C
 
-Matrix7d MTM_dynamics::MTM_C(Vector7d q, Vector7d dq){
+Matrix7d MTM_dynamics::C(Vector7d q, Vector7d dq){
 
 Matrix7d A0 =  Matrix7d::Zero();
 double q1 = q[0];
@@ -3547,7 +3557,7 @@ return A0;
 }
 
 // Friction Vector F
-Vector7d MTM_dynamics::MTM_F(Vector7d dq){
+Vector7d MTM_dynamics::F(Vector7d dq, double friction_slope){
 
 Vector7d A0 =  Vector7d::Zero();
 double dq1 = dq[0];
@@ -3557,8 +3567,6 @@ double dq4 = dq[3];
 double dq5 = dq[4];
 double dq6 = dq[5];
 double dq7 = dq[6];
-
-float friction_slope = 50;
 
 
 
@@ -3574,7 +3582,7 @@ return A0;
 }
 
 // Gravity Vector G
-Vector7d MTM_dynamics::MTM_G(Vector7d q){
+Vector7d MTM_dynamics::G(Vector7d q){
 
 Vector7d A0 =  Vector7d::Zero();
 double q1 = q[0];
@@ -3660,7 +3668,7 @@ return A0;
 }
 
 // Elasticity Vector K
-Vector7d MTM_dynamics::MTM_K(Vector7d q){
+Vector7d MTM_dynamics::K(Vector7d q){
 
 Vector7d A0 = Vector7d::Zero();
 double q1 = q[0];
@@ -3680,7 +3688,7 @@ return A0;
 }
 
 // Dyrect kinematics Matrix Te
-Matrix4d MTM_dynamics::MTM_Te(Vector7d q){
+Matrix4d MTM_dynamics::Te(Vector7d q){
 
 Matrix4d A0 = Matrix4d::Zero();
 double q1 = q[0];
@@ -3774,7 +3782,7 @@ return A0;
 }
 
 // Jacobian Matrix J
-Matrix<double, 6,7> MTM_dynamics::MTM_J(Vector7d q){
+Matrix<double, 6,7> MTM_dynamics::J(Vector7d q){
 
 Matrix<double, 6,7> A0 = Matrix<double, 6,7>::Zero();
 double q1 = q[0];

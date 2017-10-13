@@ -87,6 +87,7 @@ int main(int argc, char** argv)
 
     PSM_dynamics psm_dyn("PSM1", LIB_D+param_D);
    
+    //cout << "PSM param: " << psm_dyn.get_parameters() << endl;	
 
     Vector7d q = Vector7d::Zero();
     Vector7d dq = Vector7d::Zero();
@@ -146,19 +147,18 @@ int main(int argc, char** argv)
 
 
 
+        B = psm_dyn.B(q);
+        G = psm_dyn.G(q,qs);
 
-        B = psm_dyn.PSM_B(q);
-        G = psm_dyn.PSM_G(q,qs);
+        K = psm_dyn.K(q);
 
-        K = psm_dyn.PSM_K(q);
+        F = psm_dyn.F(dq, 50);
 
-        F = psm_dyn.PSM_F(dq);
-
-        C = psm_dyn.PSM_C(q,dq);
-        J = psm_dyn.PSM_J(q,qs);
+        C = psm_dyn.C(q,dq);
+        J = psm_dyn.J(q,qs);
 
 
-        Te = psm_dyn.PSM_Te(q,qs);
+        Te = psm_dyn.Te(q,qs);
 
         //LU<3,double> Core_Jo_T = J.slice<3,0,3,6>()*J.slice<3,0,3,6>().T();
 		//LU<3,double> Core_Jp_T = J.slice<0,0,3,3>().T()*J.slice<0,0,3,3>();
@@ -172,9 +172,13 @@ int main(int argc, char** argv)
         Jp_inv_T = J.block(0,0,3,3)*Core_Jp_T.inverse();
         Jo_inv_T = Core_Jo_T.inverse() * J.block(3,0,3,6);
 
+
+
    
         In = In + (tau + C.transpose()*dq.head(6) - F.head(6) - G - K + res)*Tsam;
         res = Ki*(B*dq.head(6) - In);
+
+	cout << Jp_inv_T << endl;
 		
         external_forces = Jp_inv_T*res.head(3);
         external_torques = Jo_inv_T*res;

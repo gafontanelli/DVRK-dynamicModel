@@ -39,14 +39,25 @@
 
 
 //******************************************************************************
-PSM_dynamics::PSM_dynamics(string psmName, string paramFile){
+PSM_dynamics::PSM_dynamics(string _robName, string _paramFile){
 
-	if(read_parameters_from_file(paramFile)){
+    robName = _robName;
+
+
+	if(read_parameters_from_file(_paramFile)){
 		cout << "Parameters load was successfull" << endl;
 	}else{
 		cout << "Parameters load has encountered problems" << endl;
 	}
 
+}
+
+
+VectorXd PSM_dynamics::get_parameters(){
+    Matrix<double, 1,68> param;
+    param << mass1,mpx1,mpy1,mpz1,Ixx1,Iyy1,Izz1,Ixy1,Ixz1,Iyz1,Fv1,Fs1,K1,O1,mass2,mpx2,mpy2,mpz2,Ixx2,Iyy2,Izz2,Fv2,Fs2,K2,O2,mass3,mpx3,mpy3,mpz3,Ixx3,Iyy3,Izz3,mass4,mpx4,mpy4,mpz4,Ixx4,Iyy4,Izz4,Ixy4,Ixz4,Iyz4,mass5,mpx5,mpy5,mpz5,Ixx5,Iyy5,Izz5,Ixy5,Ixz5,Iyz5,Fv3,Fs3,Fv4,Fs4,K4,O4,Fv5,Fs5,Fv6,Fs6,Fv7,Fs7,mass9,Ixx9,Iyy9,Izz9;
+
+    return param;
 }
 
 bool PSM_dynamics::read_parameters_from_file(string paramFile){
@@ -79,6 +90,7 @@ bool PSM_dynamics::read_parameters_from_file(string paramFile){
         else if (param == "mpy2") 	mpy2 = value;
         else if (param == "mpz2") 	mpz2 = value;
         else if (param == "Ixx2") 	Ixx2 = value;
+        else if (param == "Iyy2")   Iyy2 = value;
         else if (param == "Izz2") 	Izz2 = value;
         else if (param == "Fv2") 	Fv2 = value;
         else if (param == "Fs2") 	Fs2 = value;
@@ -139,7 +151,7 @@ bool PSM_dynamics::read_parameters_from_file(string paramFile){
 }
 
 // Inertia matrix B
-Matrix6d PSM_dynamics::PSM_B(Vector7d q){
+Matrix6d PSM_dynamics::B(Vector7d q){
 
 Matrix6d A0 = Matrix6d::Zero();
 double q1 = q[0];
@@ -175,7 +187,7 @@ return A0;
 }
 
 //Coriolis and centrifugal matrix C
-Matrix6d PSM_dynamics::PSM_C(Vector7d q, Vector7d dq){
+Matrix6d PSM_dynamics::C(Vector7d q, Vector7d dq){
 
 Matrix6d A0 = Matrix6d::Zero();
 
@@ -219,17 +231,17 @@ return A0;
 }
 
 //Friction Vector F
-Vector7d PSM_dynamics::PSM_F(Vector7d dq){
+Vector7d PSM_dynamics::F(Vector7d dq, double friction_slope){
 
 Vector7d A0 = Vector7d::Zero();
 
-float dq1 = dq[0];
-float dq2 = dq[1];
-float dq3 = dq[2];
-float dq4 = dq[3];
-float dq5 = dq[4];
-float dq6 = dq[5];
-float dq7 = dq[6];
+double dq1 = dq[0];
+double dq2 = dq[1];
+double dq3 = dq[2];
+double dq4 = dq[3];
+double dq5 = dq[4];
+double dq6 = dq[5];
+double dq7 = dq[6];
 /*if ( dq1> 0.001 ){ t1 = 1; }else if( dq1<-0.001){ t1 = -1; }else{ t1 = 0; }
 if ( dq2> 0.001 ){ t2 = 1; }else if( dq2<-0.001){ t2 = -1; }else{ t2 = 0; }
 if ( dq3> 0.001 ){ t3 = 1; }else if( dq3<-0.001){ t3 = -1; }else{ t3 = 0; }
@@ -251,18 +263,15 @@ A0[4] = Fv55*dq5+Fv56*dq6+Fs55*(t5);
 A0[5] = Fv65*dq5+Fv66*dq6+Fs66*(t6);//*/
 
 
-float friction_slope = 50;
-
-
-float t2 = dq5*6.696E-1;
-float t3 = dq6*8.212E-1;
-float t4 = dq7*4.106E-1;
-float t5 = t2+t3+t4;
-float t6 = tanh(friction_slope*t5);//(t5/fabs(t5));
-float t7 = t2+t3-t4;
-float t8 = tanh(friction_slope*t7);//(t7/fabs(t7));
-float t9 = dq7*(-4.106E-1)+t2+t3;
-float t10 = tanh(friction_slope*t9);
+double t2 = dq5*6.696E-1;
+double t3 = dq6*8.212E-1;
+double t4 = dq7*4.106E-1;
+double t5 = t2+t3+t4;
+double t6 = tanh(friction_slope*t5);//(t5/fabs(t5));
+double t7 = t2+t3-t4;
+double t8 = tanh(friction_slope*t7);//(t7/fabs(t7));
+double t9 = dq7*(-4.106E-1)+t2+t3;
+double t10 = tanh(friction_slope*t9);
 
 
 
@@ -278,7 +287,7 @@ return A0;
 }
 
 //Gravity Vector G
-Vector6d PSM_dynamics::PSM_G(Vector7d q, Vector6d qs){
+Vector6d PSM_dynamics::G(Vector7d q, Vector6d qs){
 
 Vector6d A0 = Vector6d::Zero();
 
@@ -328,7 +337,7 @@ return A0;
 }
 
 //Elasticity Vector K
-Vector6d PSM_dynamics::PSM_K(Vector7d q){
+Vector6d PSM_dynamics::K(Vector7d q){
 
 
 double q1 = q[0];
@@ -348,7 +357,7 @@ return A0;
 
 
 //Dyrect Kinematics Matrix Te
-Matrix4d PSM_dynamics::PSM_Te(Vector7d q, Vector6d qs){
+Matrix4d PSM_dynamics::Te(Vector7d q, Vector6d qs){
 
 Matrix4d A0 = Matrix4d::Zero();
 double q1 = q[0];
@@ -450,7 +459,7 @@ return A0;
 
 
 //Jacobian matrix J
-Matrix6d PSM_dynamics::PSM_J(Vector7d q, Vector6d qs){
+Matrix6d PSM_dynamics::J(Vector7d q, Vector6d qs){
 
 Matrix6d A0 = Matrix6d::Zero();
 double q1 = q[0];

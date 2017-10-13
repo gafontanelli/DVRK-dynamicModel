@@ -48,10 +48,10 @@ typedef Matrix<double, 6, 6> Matrix6d;
 
 class PSM_dynamics
 {
-	public:
+	private:
 
-		string psmName;
-		string paramFile;
+	string robName;
+	string paramFile;
 
         double mass1	= 0.0;
         double mpx1 	= 0.0;
@@ -121,24 +121,27 @@ class PSM_dynamics
         double Ixx9 	= 0.0;
         double Iyy9 	= 0.0;
         double Izz9 	= 0.0;
-
-		/* brief Constructor. */
-		PSM_dynamics(string psmName, string paramFile);
-
-		bool read_parameters_from_file(string paramFile);
-		
-		Matrix6d PSM_J(Vector7d q, Vector6d qs);	//B
-		Matrix4d PSM_Te(Vector7d q, Vector6d qs);	//B
+	bool read_parameters_from_file(string paramFile);
 
 
 
-		Matrix6d PSM_B(Vector7d q);	//B
-		Matrix6d PSM_C(Vector7d q, Vector7d dq);
+	public:
+
+	/* brief Constructor. */
+	PSM_dynamics(string robName, string paramFile);
+	VectorXd get_parameters();
+
+	
+	Matrix6d J(Vector7d q, Vector6d qs);	//Jacobian matrix
+	Matrix4d Te(Vector7d q, Vector6d qs);	//Dyrect kinematics
+
+	Matrix6d B(Vector7d q);	//Inertia matrix
+	Matrix6d C(Vector7d q, Vector7d dq); //Coriolis and centrifugal matrix
 
 
-		Vector6d PSM_G(Vector7d q, Vector6d qs);	//B1
-		Vector6d PSM_K(Vector7d q);	//B1
-		Vector7d PSM_F(Vector7d dq);	//B1
+	Vector6d G(Vector7d q, Vector6d qs);	//Gravity vector
+	Vector6d K(Vector7d q);	//Elasticity vector
+	Vector7d F(Vector7d dq, double friction_slope = 50);	//Friction vector
 
 };
 

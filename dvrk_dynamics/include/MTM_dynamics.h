@@ -43,8 +43,8 @@ typedef Matrix<double, 7, 1> Vector7d;
 typedef Matrix<double, 7, 7> Matrix7d;
 class MTM_dynamics
 {
-	public:
-		string psmName;
+	private:
+		string robName;
 		string paramFile;
 		double mass1 = 0.0;
 		double mpx1  = 0.0;
@@ -136,21 +136,21 @@ class MTM_dynamics
 		double Izz9  = 0.0;
 		double Fv7   = 0.0;
 		double Fs7   = 0.0;
-
-
-		/* brief Constructor. */
-		MTM_dynamics(string psmName, string paramFile);
 		bool read_parameters_from_file(string paramFile);
-		Matrix<double, 6, 7> MTM_J(Vector7d q);	//B
-		Matrix4d MTM_Te(Vector7d q);	//B
 
+	public:
+		/* brief Constructor. */
+		
+		MTM_dynamics(string robName, string paramFile);
+		VectorXd get_parameters();
 
-
-		Matrix7d MTM_B(Vector7d q);	//B
-		Matrix7d MTM_C(Vector7d q, Vector7d dq);
-		Vector7d MTM_G(Vector7d q);	//B1
-		Vector7d MTM_K(Vector7d q);	//B1
-		Vector7d MTM_F(Vector7d dq);	//B1
+		Matrix<double, 6, 7> J(Vector7d q);	//Jacobian
+		Matrix4d Te(Vector7d q);	//Dyrect kinematics
+		Matrix7d B(Vector7d q);	//Inertia matrix
+		Matrix7d C(Vector7d q, Vector7d dq); //Coriolis and centrifugal matrix
+		Vector7d G(Vector7d q);	//Gravity vector
+		Vector7d K(Vector7d q);	//Elasticity vector
+		Vector7d F(Vector7d dq, double frition_slope = 50); //Friction vector
 
 
 

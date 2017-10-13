@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/PSM_dynamics.dir/src/PSM_dynamics.cpp.o"
-  "../lib/libPSM_dynamics.pdb"
-  "../lib/libPSM_dynamics.so"
+  "../build_lib/libPSM_dynamics.pdb"
+  "../build_lib/libPSM_dynamics.so"
 )
 
 # Per-language clean rules from dependency scanning.

@@ -132,7 +132,7 @@ include_directories(
 )
 
 include_directories(${LIB_DIR}/include)
-link_directories(${LIB_DIR}/build)
+link_directories(${LIB_DIR}/build_lib)
 ## Declare a C++ library
 # add_library(dvrk_sensing_mio
 #   src/${PROJECT_NAME}/dvrk_sensing_mio.cpp

@@ -83,6 +83,8 @@ int main(int argc, char** argv)
 
     MTM_dynamics mtm_dyn("MTML", LIB_D+param_D);
 
+    //cout << "MTM param: " << mtm_dyn.get_parameters() << endl;	
+
     Vector7d q = Vector7d::Zero();
     Vector7d dq = Vector7d::Zero();
     Vector7d tau = Vector7d::Zero();
@@ -135,14 +137,14 @@ int main(int argc, char** argv)
         tau  << mtm_joint_effort[0],mtm_joint_effort[1],mtm_joint_effort[2],mtm_joint_effort[3],mtm_joint_effort[4],mtm_joint_effort[5],mtm_joint_effort[6];
         }
 
-        B = mtm_dyn.MTM_B(q);
-        G = mtm_dyn.MTM_G(q);
-        K = mtm_dyn.MTM_K(q);
-        F = mtm_dyn.MTM_F(dq);
-        C = mtm_dyn.MTM_C(q,dq);
+        B = mtm_dyn.B(q);
+        G = mtm_dyn.G(q);
+        K = mtm_dyn.K(q);
+        F = mtm_dyn.F(dq, 50);
+        C = mtm_dyn.C(q,dq);
 
-        J = mtm_dyn.MTM_J(q);
-        Te = mtm_dyn.MTM_Te(q);
+        J = mtm_dyn.J(q);
+        Te = mtm_dyn.Te(q);
 
 
         //LU<3,double> Core_Jo_T = J.slice<3,0,3,7>()*J.slice<3,0,3,7>().T();
@@ -153,14 +155,15 @@ int main(int argc, char** argv)
 
         FullPivLU<Matrix3d> Core_Jp_T(J.block(0,0,3,3).transpose()*J.block(0,0,3,3));
 
-  
+        Jp_inv_T = J.block(0,0,3,3)*Core_Jp_T.inverse();
+        Jo_inv_T = Core_Jo_T.inverse() * J.block(3,0,3,7);
 
         In = In + (tau + C.transpose()*dq - F - G - K + res)*Tsam;
         res = Ki*(B*dq - In);
+
         
         external_forces = Jp_inv_T*res.head(3);
         external_torques = Jo_inv_T*res;
-        
        
         msg_wrench_ext.force.x = external_forces[0];
         msg_wrench_ext.force.y = external_forces[1];
@@ -170,7 +173,7 @@ int main(int argc, char** argv)
         msg_wrench_ext.torque.y = external_torques[1];
         msg_wrench_ext.torque.z = external_torques[2];
 		
-		external_forces_pub.publish(msg_wrench_ext);
+	external_forces_pub.publish(msg_wrench_ext);
 
 
 
