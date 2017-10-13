@@ -43,6 +43,8 @@
 #include <string.h>
 #include "PSM_dynamics.h"
 
+#define psmName "PSM1"
+
 // set up joint state variables
 
 std::vector<double> psm_joint_position;
@@ -78,14 +80,13 @@ int main(int argc, char** argv)
 
     // subscriber
     std::cout << "Creo il subscriber" << std::endl;
-    ros::Subscriber joint_state = nh.subscribe("/dvrk/PSM1/state_joint_current", 1, state_joint_current_cb);
-
+   ros::Subscriber joint_state = nh.subscribe("/dvrk/PSM1/state_joint_current", 1, state_joint_current_cb);
     ros::Publisher external_forces_pub = nh.advertise<geometry_msgs::Wrench>("/dvrk/PSM1/external_wrench", 1);
 
     string LIB_D(LIB_DIRECTORY); 
-    string param_D("/PSM_param.txt");
+    string param_D("/PSM1_param.txt");
 
-    PSM_dynamics psm_dyn("PSM1", LIB_D+param_D);
+    PSM_dynamics psm_dyn(psmName, LIB_D+param_D);
    
     //cout << "PSM param: " << psm_dyn.get_parameters() << endl;	
 

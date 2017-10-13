@@ -47,7 +47,7 @@
 
 #include "MTM_dynamics.h"
 
-#define mtmName MTML
+#define mtmName "MTML"
 
 // set up joint state variables
 
@@ -81,7 +81,7 @@ int main(int argc, char** argv)
     string LIB_D(LIB_DIRECTORY); 
     string param_D("/MTML_param.txt");
 
-    MTM_dynamics mtm_dyn("MTML", LIB_D+param_D);
+    MTM_dynamics mtm_dyn(mtmName, LIB_D+param_D);
 
     //cout << "MTM param: " << mtm_dyn.get_parameters() << endl;	
 
