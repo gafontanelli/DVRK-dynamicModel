@@ -147,14 +147,14 @@ int main(int argc, char** argv)
 
 
 
-        B = psm_dyn.PSM_B(q,qs);
+        B = psm_dyn.PSM_B(q);
         G = psm_dyn.PSM_G(q,qs);
 
         K = psm_dyn.PSM_K(q);
 
         F = psm_dyn.PSM_F(dq);
 
-        C = psm_dyn.PSM_C(q,dq,qs);
+        C = psm_dyn.PSM_C(q,dq);
         J = psm_dyn.PSM_J(q,qs);
 
 

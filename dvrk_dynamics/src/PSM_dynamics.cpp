@@ -139,7 +139,7 @@ bool PSM_dynamics::read_parameters_from_file(string paramFile){
 }
 
 // Inertia matrix B
-Matrix6d PSM_dynamics::PSM_B(Vector7d q, Vector6d qs){
+Matrix6d PSM_dynamics::PSM_B(Vector7d q){
 
 Matrix6d A0 = Matrix6d::Zero();
 double q1 = q[0];
@@ -148,8 +148,6 @@ double q3 = q[2];
 double q4 = q[3];
 double q5 = q[4];
 double q6 = q[5];
-double qs5 = qs[4];
-double qs6 = qs[5];
 
 double t2 = cos(q2);
 double t3 = t2*t2;
@@ -177,7 +175,7 @@ return A0;
 }
 
 //Coriolis and centrifugal matrix C
-Matrix6d PSM_dynamics::PSM_C(Vector7d q, Vector7d dq, Vector6d qs){
+Matrix6d PSM_dynamics::PSM_C(Vector7d q, Vector7d dq){
 
 Matrix6d A0 = Matrix6d::Zero();
 
@@ -194,9 +192,6 @@ double dq3 = dq[2];
 double dq4 = dq[3];
 double dq5 = dq[4];
 double dq6 = dq[5];
-
-double qs5 = qs[4];
-double qs6 = qs[5];
 
 double t2 = q2*2.0;
 double t3 = cos(t2);

@@ -132,8 +132,8 @@ class PSM_dynamics
 
 
 
-		Matrix6d PSM_B(Vector7d q, Vector6d qs);	//B
-		Matrix6d PSM_C(Vector7d q, Vector7d dq, Vector6d qs);
+		Matrix6d PSM_B(Vector7d q);	//B
+		Matrix6d PSM_C(Vector7d q, Vector7d dq);
 
 
 		Vector6d PSM_G(Vector7d q, Vector6d qs);	//B1

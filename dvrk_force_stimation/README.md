@@ -28,8 +28,8 @@ calculate the 6X6 PSM coriolis and centrifugal matrix. It requires the input 7X1
 ```
 
 ```C++
-Vector6d PSM_dynamics::PSM_G(Vector7d q)
-calculate the 6X1 PSM gravity vector. It requires the input 7X1 vector q of the joint position and the 6X1 vector of the setup joint positions. 
+Vector6d PSM_dynamics::PSM_G(Vector7d q, Vector6d qs)
+calculate the 6X1 PSM gravity vector. It requires the input 7sX1 vector q of the joint position and the 6X1 vector of the setup joint positions. 
 More in details the qs5 and qs6 joints of the setup joint are used to change the gravity effect qhen the setup joints are not to the zero position. 
 ```
 
@@ -41,11 +41,21 @@ The static frictoion is obtained using a continue function based on the hyperbol
 
 ```C++
 Vector6d PSM_dynamics::PSM_K(Vector7d q) 
-calculate the 6X1 PSM elasticity vector. It requires the input 7X1 vector d of the joint positions. [2].
+calculate the 6X1 PSM elasticity vector. It requires the input 7X1 vector d of the joint positions [2].
+```
+
+```C++
+Matrix6d PSM_dynamics::PSM_J(Vector7d q, Vector6d qs) 
+calculate the 6X6 PSM geometric Jacobian matrix. It requires the input 7X1 vector d of the joint positions and the 6X1 vector of the setup joint positions.
+```
+
+```C++
+Matrix4d PSM_dynamics::PSM_Te(Vector7d q, Vector6d qs) 
+calculate the 4X4 homogeneous transformation matrix for the PSM dyrect kinematics. It requires the input 7X1 vector d of the joint positions and the 6X1 vector of the setup joint positions.
 ```
 ---
 References:
 
 	- [1] B. Siciliano, L. Villani, Sciavlìicco, "Robotics: Modelling, Planning and Control", 2010, Springer
-	- [2] G.A. Fontanelli ...
+	- [2] G.A. Fontanelli, F. Ficuciello, L. Villani, B. Siciliano, "Modelling and identification of the da Vinci research kit robotic arms", IEEE/RSJ Int. Conference 
 ---
