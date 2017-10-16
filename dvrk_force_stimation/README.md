@@ -11,7 +11,7 @@ Inside the lib folder there are two library libMTM_dynamics.so and libPSM_dynami
 The functions names respects the nomenclature reported in the book [1]. Hence: B is the inertia batrix, C is the coriolis and centrifugal matrix, G is the gravity vector, F is the friction matrix, K is the elasticity matrix, J is the jacobian matrix, Te is the direct kinematics matrix. 
 It's possible to create a PSM or a MTM arm using the class constructor.
 
-The external forces is calculated using the residual based approach [3]. 
+The external forces are calculated using the residual based approach [3]. 
 
 # List of function in the dvrk_dynamics Library
 
