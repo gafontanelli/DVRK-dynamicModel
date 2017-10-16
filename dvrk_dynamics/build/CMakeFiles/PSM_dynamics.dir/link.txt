@@ -1,1 +1,0 @@
-/usr/bin/c++  -fPIC -std=c++0x  -shared -Wl,-soname,libPSM_dynamics.so -o ../build_lib/libPSM_dynamics.so CMakeFiles/PSM_dynamics.dir/src/PSM_dynamics.cpp.o -llapack 

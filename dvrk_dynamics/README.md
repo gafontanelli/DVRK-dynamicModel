@@ -1,13 +1,20 @@
-# dvrk_dynamics_force_estimation
-This package has code related to the daVinci arms force estimation.
-Inside the package there is the library containing all the function related to the dynamics and kinematics of the DVRK arms. 
+# dvrk_dynamics
+This folder contains all the file for the dvrk_dynamics library generation
 
 # Install
-Copy the package in the dvrk-ros folder and compile with catkin build
-If you have any problems with the library it's possible to recompile that. The code is in the dvrk_dynamics folder. Hence copy the build_lib and include folder into the lib folder of the package.
+
+```C++
+cd dvrk_dynamics
+mkdir build
+cd build
+cmake ..
+make
+```
+
+Hence copy the folder build_lib and include in other package or install it
 
 # Contents
-Inside the lib folder there are two library libMTM_dynamics.so and libPSM_dynamics.so containing respectively all the symbolic and optimized function for the MTM and the PSM dynamic model. 
+The library contains respectively all the symbolic and optimized function for the MTM and the PSM dynamic model. 
 The functions names respects the nomenclature reported in the book [1]. Hence: B is the inertia batrix, C is the coriolis and centrifugal matrix, G is the gravity vector, F is the friction matrix, K is the elasticity matrix, J is the jacobian matrix, Te is the direct kinematics matrix. 
 It's possible to create a PSM or a MTM arm using the class constructor.
 

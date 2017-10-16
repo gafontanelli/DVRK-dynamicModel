@@ -1,1 +1,0 @@
-/usr/bin/c++  -fPIC -std=c++0x  -shared -Wl,-soname,libMTM_dynamics.so -o ../build_lib/libMTM_dynamics.so CMakeFiles/MTM_dynamics.dir/src/MTM_dynamics.cpp.o -llapack 
