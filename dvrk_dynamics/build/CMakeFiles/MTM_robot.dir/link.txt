@@ -1,0 +1,1 @@
+/usr/bin/c++  -fPIC -std=c++0x  -shared -Wl,-soname,libMTM_robot.so -o ../build_lib/libMTM_robot.so CMakeFiles/MTM_robot.dir/src/MTM_robot.cpp.o ../build_lib/libutilities.so -llapack -Wl,-rpath,/home/andrea/Desktop/DVRK-dynamicModel/dvrk_dynamics/build_lib 

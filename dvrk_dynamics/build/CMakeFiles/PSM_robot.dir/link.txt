@@ -1,0 +1,1 @@
+/usr/bin/c++  -fPIC -std=c++0x  -shared -Wl,-soname,libPSM_robot.so -o ../build_lib/libPSM_robot.so CMakeFiles/PSM_robot.dir/src/PSM_robot.cpp.o ../build_lib/libutilities.so -llapack -Wl,-rpath,/home/andrea/Desktop/DVRK-dynamicModel/dvrk_dynamics/build_lib 

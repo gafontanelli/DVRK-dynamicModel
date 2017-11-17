@@ -1,0 +1,40 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/PSM_robot.h
+stdlib.h
+-
+iostream
+-
+string.h
+-
+fstream
+-
+stdio.h
+-
+math.h
+-
+Eigen/Dense
+-
+utilities.h
+../include/utilities.h
+
+../include/utilities.h
+cmath
+-
+Eigen/Dense
+-
+
+/home/andrea/Desktop/DVRK-dynamicModel/dvrk_dynamics/src/PSM_robot.cpp
+stdio.h
+-
+math.h
+-
+PSM_robot.h
+/home/andrea/Desktop/DVRK-dynamicModel/dvrk_dynamics/src/PSM_robot.h
+
